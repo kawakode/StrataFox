@@ -1,0 +1,35 @@
+/* Variante XP (Luna bleu) : couleurs système de Windows XP */
+:root {
+  --strata-font: 8pt Tahoma, "Segoe UI", sans-serif;
+  --strata-dialog: #ece9d8;
+  --strata-3dshadow: #aca899;
+  --strata-3dhighlight: #ffffff;
+  --strata-text: #000000;
+  --strata-graytext: #aca899;
+
+  /* Barre de menus + barres d'outils (bande « rebar » Luna) */
+  --strata-toolbox-bg: linear-gradient(#f9f8f3, #efede2 50%, #e5e2d2 100%);
+  --strata-menubar-bg: linear-gradient(#fbfaf6, #f1efe6);
+  --strata-toolbar-separator: rgba(172, 168, 153, .6);
+
+  /* Bouton de barre d'outils (style Luna) */
+  --strata-button-hover-border: #cecbbd #b5b2a3 #a8a596;
+  --strata-button-hover-bg: linear-gradient(#ffffff, #f9f8f4 50%, #ebe9dd);
+  --strata-button-active-border: #9d9a8b;
+  --strata-button-active-bg: linear-gradient(#dedbcb, #e8e6d9 40%, #f2f1ea);
+  --strata-button-radius: 3px;
+
+  /* Barre d'adresse */
+  --strata-field-border: #7f9db9;
+  --strata-field-hover-border: #7f9db9;
+  --strata-field-focus-border: #3d6ea8;
+
+  /* Menus (style menu XP) */
+  --strata-menu-bg: #ffffff;
+  --strata-menu-border: #aca899;
+  --strata-menu-gutter: none;
+  --strata-menu-hover-bg: #316ac5;
+  --strata-menu-hover-border: #316ac5;
+  --strata-menu-hover-text: #ffffff;
+  --strata-menu-radius: 0;
+}
