@@ -170,9 +170,15 @@
 
 /* ---------- Boutons de barre d'outils ------------------------------------ */
 
+/* Les marges des boutons sont fixées ici en dur : les noms des variables de
+ * Firefox changent d'une version à l'autre (--toolbarbutton-inner-padding est
+ * devenu --toolbarbutton-padding-inner), ce qui déformait les icônes. */
 #navigator-toolbox toolbarbutton.toolbarbutton-1 {
   --toolbarbutton-inner-padding: 3px !important;
+  --toolbarbutton-padding-inner: 3px !important;
   --toolbarbutton-outer-padding: 1px !important;
+  --toolbarbutton-padding-outer: 1px !important;
+  padding: 0 1px !important;
   appearance: none !important;
   color: var(--strata-text) !important;
 }
@@ -184,6 +190,7 @@
   border-radius: var(--strata-button-radius) !important;
   background: transparent !important;
   box-shadow: none !important;
+  outline: none !important;
 }
 
 #navigator-toolbox .toolbarbutton-1:not([disabled]):hover > :is(.toolbarbutton-icon, .toolbarbutton-badge-stack, .toolbarbutton-text) {
@@ -202,22 +209,29 @@
   opacity: 1 !important;
 }
 
-/* Icônes 24px de Firefox 3 dans la barre de navigation */
-#nav-bar :is(#reload-button, #stop-button, #home-button, #downloads-button,
-             #history-panelmenu, #bookmarks-menu-button, #print-button,
-             #new-tab-button, #new-window-button, #cut-button, #copy-button,
-             #paste-button, #fullscreen-button) {
-  --strata-icon-size: 24px;
-}
-
+/* Icônes de Firefox 3 : 24px dans la barre de navigation, 16px ailleurs.
+ * Boîte = icône + 2 x 3px de marge + 2 x 1px de bordure, sans mise à l'échelle. */
 #navigator-toolbox :is(#reload-button, #stop-button, #home-button, #downloads-button,
                        #history-panelmenu, #bookmarks-menu-button, #print-button,
                        #new-tab-button, #new-window-button, #cut-button, #copy-button,
                        #paste-button, #fullscreen-button) :is(.toolbarbutton-icon, #downloads-indicator-icon) {
-  width: calc(var(--strata-icon-size, 16px) + 2 * var(--toolbarbutton-inner-padding)) !important;
-  height: calc(var(--strata-icon-size, 16px) + 2 * var(--toolbarbutton-inner-padding)) !important;
+  box-sizing: border-box !important;
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  padding: 3px !important;
+  object-fit: none !important;
   -moz-context-properties: none !important;
   fill: none !important;
+}
+
+#nav-bar :is(#reload-button, #stop-button, #home-button, #downloads-button,
+             #history-panelmenu, #bookmarks-menu-button, #print-button,
+             #new-tab-button, #new-window-button, #cut-button, #copy-button,
+             #paste-button, #fullscreen-button) :is(.toolbarbutton-icon, #downloads-indicator-icon) {
+  width: 32px !important;
+  height: 32px !important;
 }
 
 #navigator-toolbox :is(#downloads-button, #history-panelmenu, #bookmarks-menu-button) .toolbarbutton-badge-stack {
@@ -228,13 +242,15 @@
   display: none !important;
 }
 
-#navigator-toolbox #downloads-indicator-icon {
-  padding: var(--toolbarbutton-inner-padding) !important;
-}
-
-#downloads-button .toolbarbutton-animatable-box,
+/* Pas d'animations Proton sur les boutons à icônes Firefox 3 */
+#navigator-toolbox :is(#reload-button, #stop-button, #downloads-button) .toolbarbutton-animatable-box,
 #downloads-indicator-progress-outer {
   display: none !important;
+}
+
+#navigator-toolbox :is(#reload-button, #stop-button) > .toolbarbutton-icon {
+  display: flex !important;
+  visibility: visible !important;
 }
 
 /* #nav-bar */
@@ -381,137 +397,203 @@
   list-style-image: url("images/xp/keyhole-forward-disabled.png") !important;
 }
 
-/* ---------- Barre d'adresse ---------------------------------------------- */
+/* ---------- Barre d'adresse et barre de recherche ------------------------
+ * Champs carrés de 24px avec une bordure fine, comme dans Firefox 3.
+ * Les sélecteurs couvrent les deux générations de Firefox :
+ *   - jusqu'à ~140 : #urlbar-background, #searchbar ;
+ *   - versions récentes : <moz-urlbar> / <moz-searchbar> (.urlbar-background). */
 
 #urlbar-container,
 #search-container {
-  padding-block: 0 !important;
-  margin-inline: 3px !important;
-}
-
-#urlbar:not([breakout-extend]),
-#searchbar {
   --urlbar-container-height: 26px !important;
-  --urlbar-min-height: 24px !important;
-  --urlbar-height: 24px !important;
+  --urlbar-container-padding-block: 0px !important;
+  padding-block: 0 !important;
+  margin-inline: 2px !important;
+  min-height: 26px !important;
+  align-items: center !important;
 }
 
-#urlbar-background,
+:is(#urlbar, #searchbar, #searchbar-new) {
+  --urlbar-height: 24px !important;
+  --urlbar-min-height: 24px !important;
+  --urlbar-container-height: 26px !important;
+  --urlbar-input-container-padding: 0px !important;
+  --urlbar-input-container-border-width: 0px !important;
+  --urlbar-input-container-border-width-open: 0px !important;
+  --urlbar-basic-component-size: 22px !important;
+  --urlbar-icon-padding: 3px !important;
+  --urlbar-component-gap: 0px !important;
+  --urlbar-border-radius: 0px !important;
+  --urlbar-background-border-radius: 0px !important;
+  --urlbar-background-overhang-open: 0px !important;
+  --urlbar-input-growth-open-inline: 0px !important;
+  --urlbar-input-growth-open-block: 0px !important;
+  --urlbar-joint-background-overlap: 0px !important;
+  --urlbar-background-box-shadow-open: none !important;
+  --urlbar-background-outline-focused: none !important;
+  --urlbarview-border-radius: 0px !important;
+  --urlbar-box-background-color: transparent !important;
+  --urlbar-box-background-color-hover: transparent !important;
+  --urlbar-box-background-color-active: transparent !important;
+  --toolbar-field-border-color: transparent !important;
+  --toolbar-field-border-color-focus: transparent !important;
+  min-height: 24px !important;
+  font: var(--strata-font) !important;
+  color: #000000 !important;
+}
+
+/* Fond et bordure du champ */
+:is(#urlbar-background, .urlbar-background),
 #searchbar {
-  border-radius: 0 !important;
   border: 1px solid !important;
   border-color: var(--strata-field-border) !important;
+  border-radius: 0 !important;
   background: #ffffff !important;
   box-shadow: none !important;
   outline: none !important;
   animation: none !important;
 }
 
-#urlbar:not([focused]):hover > #urlbar-background,
+:is(#urlbar, #searchbar-new):not([focused]):hover > :is(#urlbar-background, .urlbar-background),
 #searchbar:not(:focus-within):hover {
   border-color: var(--strata-field-hover-border) !important;
 }
 
-#urlbar[focused] > #urlbar-background,
+:is(#urlbar, #searchbar-new)[focused] > :is(#urlbar-background, .urlbar-background),
 #searchbar:focus-within {
   border-color: var(--strata-field-focus-border) !important;
   outline: none !important;
 }
 
-#urlbar:not([breakout-extend]) > .urlbar-input-container {
-  padding: 1px !important;
-  height: var(--urlbar-height) !important;
+/* Liste déroulante ouverte : le champ garde sa taille, juste une ombre */
+:is(#urlbar, #searchbar-new):is([breakout-extend], [popover-open]) > :is(#urlbar-background, .urlbar-background) {
+  border-color: var(--strata-field-focus-border) !important;
+  border-radius: 0 !important;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .25) !important;
 }
 
-#urlbar-input,
+:is(#urlbar, #searchbar-new) > .urlbar-input-container {
+  padding: 1px !important;
+  border: none !important;
+  border-radius: 0 !important;
+  outline: none !important;
+  height: 24px !important;
+  min-height: 0 !important;
+  column-gap: 0 !important;
+  gap: 0 !important;
+}
+
+#urlbar[breakout-extend] > .urlbar-input-container {
+  height: 24px !important;
+  padding: 1px !important;
+}
+
+:is(#urlbar-input, .urlbar-input),
 #searchbar .searchbar-textbox {
   font: var(--strata-font) !important;
-  font-size: 1.1em !important;
+  color: #000000 !important;
+  padding-inline: 4px !important;
+}
+
+:is(#urlbar-input, .urlbar-input)::placeholder,
+#searchbar .searchbar-textbox::placeholder {
+  color: #6d6d6d !important;
+  opacity: 1 !important;
+}
+
+/* Icônes génériques dans les champs : petites, sans fond arrondi */
+:is(#urlbar, #searchbar-new) :is(.urlbar-icon, .urlbar-page-action, .identity-box-button,
+                                 #tracking-protection-icon-container, #trust-icon-container) {
+  border-radius: 0 !important;
+  outline: none !important;
+  margin: 0 !important;
 }
 
 /* Le sélecteur de moteur dans la barre d'adresse n'existait pas dans
- * Firefox 3 : la barre de recherche fait ce travail. Supprimez cette règle
- * pour le retrouver. */
-#urlbar-searchmode-switcher {
+ * Firefox 3 : c'est la barre de recherche qui fait ce travail. */
+#urlbar-searchmode-switcher,
+#urlbar .searchmode-switcher {
   display: none !important;
 }
 
-/* Bloc d'identité (à gauche de l'adresse) */
+/* ----- Bloc d'identité (à gauche de l'adresse) ----- */
+
 #identity-box {
   margin: 0 !important;
-  margin-inline-end: 4px !important;
+  padding: 0 !important;
 }
 
-#identity-box > .identity-box-button,
-#identity-icon-box {
-  margin: 0 !important;
-  padding: 0 5px !important;
-  border-radius: 0 !important;
+:is(#urlbar, #searchbar-new) :is(#identity-icon-box, #identity-permission-box, .identity-box-button,
+                                 #tracking-protection-icon-container, #trust-icon-container) {
+  min-height: 22px !important;
+  height: 22px !important;
+  padding: 0 4px !important;
   border: none !important;
-  border-inline-end: 1px solid rgba(0, 0, 0, .12) !important;
+  border-radius: 0 !important;
   background: var(--strata-dialog) url("images/xp/identity-box.png") repeat-x 0 0 !important;
-  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0 rgba(255, 255, 255, .2) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0 rgba(255, 255, 255, .2) !important;
   color: #000000 !important;
 }
 
-#identity-box > .identity-box-button:hover,
-#identity-icon-box:hover {
+/* Fine séparation entre le bloc gris et le texte de l'adresse */
+:is(#urlbar, #searchbar-new) #identity-box {
+  border-inline-end: 1px solid rgba(0, 0, 0, .12) !important;
+  margin-inline-end: 2px !important;
+}
+
+:is(#identity-icon-box, #identity-permission-box, #tracking-protection-icon-container, #trust-icon-container):hover {
   background-position: 0 -60px !important;
 }
 
-#identity-box > .identity-box-button:hover:active,
-#identity-box[open] > .identity-box-button,
-#identity-icon-box[open] {
+:is(#identity-icon-box, #identity-permission-box, #tracking-protection-icon-container, #trust-icon-container):is(:hover:active, [open]),
+#identity-box[open] > .identity-box-button {
   background-position: 0 -120px !important;
 }
 
 /* Site sécurisé : bloc bleu ; certificat EV : bloc vert (Firefox 3.5/3.6) */
-#identity-box.verifiedDomain > #identity-icon-box,
-#identity-box.verifiedDomain > .identity-box-button {
+#identity-box.verifiedDomain > :is(#identity-icon-box, .identity-box-button) {
   background-position: 0 -180px !important;
-  border-inline-end-color: rgba(0, 0, 0, .2) !important;
   color: #ffffff !important;
 }
 #identity-box.verifiedDomain > #identity-icon-box:hover {
   background-position: 0 -240px !important;
 }
-#identity-box.verifiedIdentity > #identity-icon-box,
-#identity-box.verifiedIdentity > .identity-box-button {
+#identity-box.verifiedIdentity > :is(#identity-icon-box, .identity-box-button) {
   background-position: 0 -360px !important;
-  border-inline-end-color: rgba(0, 0, 0, .2) !important;
   color: #ffffff !important;
 }
 #identity-box.verifiedIdentity > #identity-icon-box:hover {
   background-position: 0 -420px !important;
 }
 
-#identity-box.verifiedDomain #identity-icon,
-#identity-box.verifiedIdentity #identity-icon {
+#identity-box:is(.verifiedDomain, .verifiedIdentity) #identity-icon {
   fill: #ffffff !important;
 }
 
 #identity-icon-label {
   color: inherit !important;
   font-weight: normal !important;
+  padding-inline: 2px !important;
+  margin: 0 !important;
 }
 
-#tracking-protection-icon-container {
-  margin-inline-start: 0 !important;
-  border-radius: 0 !important;
+/* ----- Icônes à droite : étoile, flèche d'historique, « Aller » ----- */
+
+#page-action-buttons {
+  height: 22px !important;
+  align-items: center !important;
 }
 
-/* Icônes à droite : étoile, flèche « Aller » */
-#urlbar .urlbar-icon,
-#urlbar .urlbar-page-action {
-  border-radius: 0 !important;
+#page-action-buttons > .urlbar-page-action,
+#star-button-box {
+  padding: 0 2px !important;
+  width: auto !important;
+  height: 22px !important;
   background: transparent !important;
 }
 
-#star-button-box {
-  padding: 0 2px !important;
-}
-
 #star-button {
+  content: url("images/xp/star.png") !important;
   list-style-image: url("images/xp/star.png") !important;
   -moz-context-properties: none !important;
   fill: none !important;
@@ -520,72 +602,151 @@
   padding: 0 !important;
 }
 #star-button-box:hover > #star-button {
+  content: url("images/xp/star-hover.png") !important;
   list-style-image: url("images/xp/star-hover.png") !important;
 }
 #star-button-box:hover:active > #star-button {
+  content: url("images/xp/star-active.png") !important;
   list-style-image: url("images/xp/star-active.png") !important;
 }
 #star-button[starred] {
+  content: url("images/xp/star-starred.png") !important;
   list-style-image: url("images/xp/star-starred.png") !important;
 }
 
-#urlbar-go-button {
-  display: flex !important;
+/* Flèche d'historique de Firefox 3 après l'étoile (décorative) */
+#urlbar #page-action-buttons::after {
+  content: url("images/xp/tabs-alltabs.png");
+  display: flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 2px;
+  margin-inline-start: 1px;
+  border-inline-start: 1px solid transparent;
+}
+#urlbar #page-action-buttons:hover::after {
+  background: var(--strata-dialog) url("images/xp/identity-box.png") repeat-x 0 -60px;
+  border-inline-start-color: var(--strata-3dshadow);
+}
+
+/* Flèche « Aller » : comme dans Firefox 3, visible pendant la saisie */
+#urlbar :is(#urlbar-go-button, .urlbar-go-button) {
+  content: url("images/xp/go.png") !important;
   list-style-image: url("images/xp/go.png") !important;
   -moz-context-properties: none !important;
   fill: none !important;
+  box-sizing: border-box !important;
   width: 22px !important;
   height: 22px !important;
   padding: 3px !important;
-  margin-inline-start: 2px !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
 }
-#urlbar-go-button:hover {
+#urlbar :is(#urlbar-go-button, .urlbar-go-button):hover {
+  content: url("images/xp/go-hover.png") !important;
   list-style-image: url("images/xp/go-hover.png") !important;
 }
 
-/* Liste déroulante de la barre d'adresse */
-#urlbar[breakout-extend] > #urlbar-background {
-  border-color: var(--strata-field-focus-border) !important;
-  box-shadow: 1px 2px 4px rgba(0, 0, 0, .25) !important;
-}
-
-.urlbarView {
-  font: var(--strata-font) !important;
-}
-
-/* ---------- Barre de recherche ------------------------------------------- */
+/* ----- Barre de recherche : [moteur ▾] [texte] [loupe] ----- */
 
 #searchbar {
   min-height: 24px !important;
+  padding: 0 !important;
 }
 
-#searchbar .searchbar-search-button {
-  padding: 0 4px !important;
+/* Bouton du moteur, à gauche, dans le même bloc gris que l'adresse */
+#searchbar .searchbar-search-button,
+#searchbar-new .searchmode-switcher {
+  height: 22px !important;
+  min-height: 22px !important;
+  padding: 0 !important;
   margin: 0 !important;
+  border: none !important;
   border-inline-end: 1px solid rgba(0, 0, 0, .12) !important;
-  background: var(--strata-dialog) url("images/xp/identity-box.png") repeat-x 0 0 !important;
   border-radius: 0 !important;
+  background: var(--strata-dialog) url("images/xp/identity-box.png") repeat-x 0 0 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .4), inset 0 -1px 0 rgba(255, 255, 255, .4) !important;
+  --button-border-radius: 0px;
+  --button-padding: 0 2px 0 4px;
+  --button-min-height: 22px;
+  --button-background-color-muted: transparent;
+  --button-background-color-muted-hover: transparent;
+  --button-background-color-muted-active: transparent;
+  --button-background-color-muted-selected: transparent;
 }
-#searchbar .searchbar-search-button:hover {
+
+#searchbar-new .searchmode-switcher::part(button) {
+  height: 22px !important;
+  min-height: 0 !important;
+  padding: 0 2px 0 4px !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+#searchbar .searchbar-search-button:hover,
+#searchbar-new .searchmode-switcher:hover {
   background-position: 0 -60px !important;
 }
 #searchbar .searchbar-search-button[open],
-#searchbar .searchbar-search-button:hover:active {
+#searchbar .searchbar-search-button:hover:active,
+#searchbar-new .searchmode-switcher:is([open], :hover:active) {
   background-position: 0 -120px !important;
 }
 
-#searchbar .search-go-button {
+#searchbar-new .searchmode-switcher-content {
+  gap: 1px !important;
+}
+
+#searchbar-new .searchmode-switcher-title,
+#searchbar-new .searchmode-switcher-wordmark {
+  display: none !important;
+}
+
+/* Petite flèche ▾ de Firefox 3 à côté de l'icône du moteur */
+#searchbar .searchbar-search-button > .searchbar-search-icon-overlay,
+#searchbar-new .searchmode-switcher-dropmarker {
+  content: url("images/xp/tabs-alltabs.png") !important;
+  list-style-image: url("images/xp/tabs-alltabs.png") !important;
+  -moz-context-properties: none !important;
+  fill: none !important;
+  width: 13px !important;
+  height: 11px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  opacity: 1 !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* Loupe à droite, toujours visible */
+#searchbar .search-go-button,
+#searchbar-new .urlbar-go-button {
   display: flex !important;
+  content: url("images/xp/search-glass.png") !important;
   list-style-image: url("images/xp/search-glass.png") !important;
   -moz-context-properties: none !important;
   fill: none !important;
-  padding: 0 4px !important;
-  width: auto !important;
+  box-sizing: border-box !important;
+  width: 22px !important;
+  height: 22px !important;
+  padding: 3px !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  transform: none !important;
 }
-#searchbar .search-go-button:hover {
+#searchbar .search-go-button:hover,
+#searchbar-new .urlbar-go-button:hover {
+  content: url("images/xp/search-glass-hover.png") !important;
   list-style-image: url("images/xp/search-glass-hover.png") !important;
 }
-#searchbar .search-go-button:hover:active {
+#searchbar .search-go-button:hover:active,
+#searchbar-new .urlbar-go-button:hover:active {
+  content: url("images/xp/search-glass-active.png") !important;
   list-style-image: url("images/xp/search-glass-active.png") !important;
 }
 
@@ -651,21 +812,18 @@
 
 #tabbrowser-tabs {
   min-height: 0 !important;
-  --tab-min-width: 100px;
+  --tab-min-width: 100px !important;
   border-inline-start: none !important;
   padding-inline-start: 0 !important;
   margin-inline-start: 0 !important;
 }
 
+/* Pas de largeur min/max forcée en !important : Firefox fige la largeur des
+ * onglets par un style en ligne pendant qu'on en ferme un, et un !important
+ * l'en empêche (onglets décalés, grand vide avant le bouton +). */
 #tabbrowser-tabs[orient="horizontal"] .tabbrowser-tab {
   padding: 0 !important;
   margin-block: 0 !important;
-  margin-inline-end: -1px !important;
-  max-width: 250px !important;
-}
-
-#tabbrowser-tabs[orient="horizontal"] .tabbrowser-tab[fadein]:not([pinned]) {
-  min-width: 100px !important;
 }
 
 .tabbrowser-tab > .tab-stack {
