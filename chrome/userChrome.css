@@ -1,0 +1,10 @@
+/* Strata — le thème Windows de Firefox 3 pour Firefox moderne
+ *
+ * Choisissez la variante en gardant UNE SEULE des deux lignes @import
+ * ci-dessous (mettez l'autre en commentaire), puis redémarrez Firefox.
+ */
+
+@import url("strata/strata-aero.css");   /* Windows Vista / Seven */
+/* @import url("strata/strata-xp.css"); */ /* Windows XP */
+
+/* Vos propres réglages peuvent être ajoutés sous cette ligne. */

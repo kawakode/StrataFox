@@ -1,0 +1,35 @@
+/* Variante Vista / Seven (Aero) : couleurs système de Windows Vista et 7 */
+:root {
+  --strata-font: 9pt "Segoe UI", sans-serif;
+  --strata-dialog: #f0f0f0;
+  --strata-3dshadow: #a0a0a0;
+  --strata-3dhighlight: #ffffff;
+  --strata-text: #000000;
+  --strata-graytext: #6d6d6d;
+
+  /* Barre de menus + barres d'outils (bande « rebar » de Vista) */
+  --strata-toolbox-bg: linear-gradient(#fbfcfe, #f1f5fb 40%, #e3ebf6 100%);
+  --strata-menubar-bg: linear-gradient(#fdfeff, #f3f7fc);
+  --strata-toolbar-separator: rgba(160, 175, 195, .45);
+
+  /* Bouton de barre d'outils (style Aero) */
+  --strata-button-hover-border: #a2c3e4 #8cb1d8 #7aa3cc;
+  --strata-button-hover-bg: linear-gradient(#fafdff, #e6f3fd 45%, #d2e8fb 50%, #dcedfc);
+  --strata-button-active-border: #6d96bf;
+  --strata-button-active-bg: linear-gradient(#d4e8f9, #bcdaf5 50%, #a9cff1 50%, #b8d8f3);
+  --strata-button-radius: 3px;
+
+  /* Barre d'adresse */
+  --strata-field-border: #9aa6b4 #b6bec9 #c4ccd6;
+  --strata-field-hover-border: #5893cc #8db6de #a7c6e6;
+  --strata-field-focus-border: #3c7fb1 #7eaad6 #98bde4;
+
+  /* Menus (style menu Vista) */
+  --strata-menu-bg: #f0f0f0;
+  --strata-menu-border: #979797;
+  --strata-menu-gutter: linear-gradient(to right, transparent 27px, #e2e3e3 27px, #e2e3e3 28px, #ffffff 28px, #ffffff 29px, transparent 29px);
+  --strata-menu-hover-bg: linear-gradient(#f2f7fd, #e2eefb);
+  --strata-menu-hover-border: #a8d8eb;
+  --strata-menu-hover-text: #000000;
+  --strata-menu-radius: 3px;
+}

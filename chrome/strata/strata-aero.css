@@ -1,0 +1,927 @@
+/* ==========================================================================
+ * Strata — le thème Windows de Firefox 3 pour Firefox moderne (userChrome.css)
+ *
+ * Les images viennent du thème « winstripe » de Firefox 3.6 (Mozilla,
+ * MPL 1.1 / GPL 2.0 / LGPL 2.1). Ce fichier est généré par tools/build.py
+ * à partir de src/strata.template.css : modifiez le modèle, pas ce fichier.
+ * ========================================================================== */
+
+
+/* Variante Vista / Seven (Aero) : couleurs système de Windows Vista et 7 */
+:root {
+  --strata-font: 9pt "Segoe UI", sans-serif;
+  --strata-dialog: #f0f0f0;
+  --strata-3dshadow: #a0a0a0;
+  --strata-3dhighlight: #ffffff;
+  --strata-text: #000000;
+  --strata-graytext: #6d6d6d;
+
+  /* Barre de menus + barres d'outils (bande « rebar » de Vista) */
+  --strata-toolbox-bg: linear-gradient(#fbfcfe, #f1f5fb 40%, #e3ebf6 100%);
+  --strata-menubar-bg: linear-gradient(#fdfeff, #f3f7fc);
+  --strata-toolbar-separator: rgba(160, 175, 195, .45);
+
+  /* Bouton de barre d'outils (style Aero) */
+  --strata-button-hover-border: #a2c3e4 #8cb1d8 #7aa3cc;
+  --strata-button-hover-bg: linear-gradient(#fafdff, #e6f3fd 45%, #d2e8fb 50%, #dcedfc);
+  --strata-button-active-border: #6d96bf;
+  --strata-button-active-bg: linear-gradient(#d4e8f9, #bcdaf5 50%, #a9cff1 50%, #b8d8f3);
+  --strata-button-radius: 3px;
+
+  /* Barre d'adresse */
+  --strata-field-border: #9aa6b4 #b6bec9 #c4ccd6;
+  --strata-field-hover-border: #5893cc #8db6de #a7c6e6;
+  --strata-field-focus-border: #3c7fb1 #7eaad6 #98bde4;
+
+  /* Menus (style menu Vista) */
+  --strata-menu-bg: #f0f0f0;
+  --strata-menu-border: #979797;
+  --strata-menu-gutter: linear-gradient(to right, transparent 27px, #e2e3e3 27px, #e2e3e3 28px, #ffffff 28px, #ffffff 29px, transparent 29px);
+  --strata-menu-hover-bg: linear-gradient(#f2f7fd, #e2eefb);
+  --strata-menu-hover-border: #a8d8eb;
+  --strata-menu-hover-text: #000000;
+  --strata-menu-radius: 3px;
+}
+
+/* ---------- Variables Firefox remplacées ---------------------------------- */
+
+:root {
+  color-scheme: light !important;
+
+  --toolbar-bgcolor: transparent !important;
+  --toolbar-color: var(--strata-text) !important;
+  --toolbox-bgcolor: var(--strata-dialog) !important;
+  --toolbox-bgcolor-inactive: var(--strata-dialog) !important;
+  --toolbox-textcolor: var(--strata-text) !important;
+  --toolbox-textcolor-inactive: var(--strata-text) !important;
+  --chrome-content-separator-color: var(--strata-3dshadow) !important;
+
+  --toolbar-field-background-color: #ffffff !important;
+  --toolbar-field-focus-background-color: #ffffff !important;
+  --toolbar-field-color: #000000 !important;
+  --toolbar-field-focus-color: #000000 !important;
+  --toolbar-field-border-color: transparent !important;
+  --toolbar-field-focus-border-color: transparent !important;
+  --urlbar-box-bgcolor: transparent !important;
+  --urlbar-box-hover-bgcolor: transparent !important;
+  --urlbar-box-active-bgcolor: transparent !important;
+
+  --toolbarbutton-border-radius: var(--strata-button-radius) !important;
+  --toolbarbutton-hover-background: transparent !important;
+  --toolbarbutton-active-background: transparent !important;
+
+  --tab-min-height: 22px !important;
+  --tab-block-margin: 0px !important;
+  --tab-border-radius: 0px !important;
+  --tab-selected-bgcolor: transparent !important;
+  --tab-selected-shadow: none !important;
+  --tab-hover-background-color: transparent !important;
+  --tab-inline-padding: 0px !important;
+  --tab-loading-fill: #3c7fb1 !important;
+  --tabstrip-inner-border: none !important;
+
+  --arrowpanel-border-radius: 0px !important;
+  --panel-border-radius: 0px !important;
+}
+
+/* ---------- Disposition « Firefox 3 » ------------------------------------
+ * Barre de menus, barre de navigation, barre personnelle, puis les onglets
+ * juste au-dessus de la page. */
+
+#titlebar {
+  display: contents !important; /* Firefox 128 ESR : #titlebar existe encore */
+}
+
+#navigator-toolbox {
+  font: var(--strata-font) !important;
+  color: var(--strata-text) !important;
+  background: var(--strata-dialog) !important;
+  border-bottom: none !important;
+  border-top: 2px solid !important;
+  border-top-color: var(--strata-3dshadow) !important;
+  border-image: linear-gradient(var(--strata-3dshadow) 50%, var(--strata-3dhighlight) 50%) 2 0 0 0 !important;
+}
+
+#toolbar-menubar      { order: 0 !important; }
+#nav-bar              { order: 1 !important; }
+#navigator-toolbox > toolbar:not(#toolbar-menubar, #nav-bar, #TabsToolbar) { order: 2 !important; }
+#TabsToolbar          { order: 3 !important; }
+
+/* Les onglets ne sont plus dans la barre de titre : on masque les boutons
+ * de fenêtre et les espaces réservés que Firefox y ajoute. */
+#TabsToolbar .titlebar-buttonbox-container,
+#TabsToolbar .titlebar-spacer {
+  display: none !important;
+}
+:root[tabsintitlebar] #toolbar-menubar[autohide="true"][inactive] + #TabsToolbar,
+:root[customtitlebar] #toolbar-menubar[autohide="true"][inactive] + #TabsToolbar {
+  padding-top: 0 !important;
+}
+
+/* ---------- Barres d'outils (menus, navigation, personnelle) ------------- */
+
+#toolbar-menubar,
+#nav-bar,
+#PersonalToolbar,
+#navigator-toolbox > toolbar:not(#TabsToolbar) {
+  background: var(--strata-toolbox-bg) !important;
+  border-top: 1px solid var(--strata-3dhighlight) !important;
+  border-bottom: 1px solid var(--strata-toolbar-separator) !important;
+  box-shadow: none !important;
+  color: var(--strata-text) !important;
+}
+
+#toolbar-menubar {
+  background: var(--strata-menubar-bg) !important;
+  min-height: 20px !important;
+}
+
+#toolbar-menubar > #menubar-items > #main-menubar > menu {
+  appearance: none !important;
+  padding: 2px 7px 3px !important;
+  margin: 1px 0 !important;
+  border: 1px solid transparent !important;
+  border-radius: var(--strata-menu-radius) !important;
+  background: transparent !important;
+  color: var(--strata-text) !important;
+}
+
+#main-menubar > menu[_moz-menuactive="true"],
+#main-menubar > menu[open="true"] {
+  background: var(--strata-menu-hover-bg) !important;
+  border-color: var(--strata-menu-hover-border) !important;
+  color: var(--strata-menu-hover-text) !important;
+}
+
+#nav-bar {
+  padding: 1px 0 !important;
+  min-height: 38px !important;
+}
+
+#nav-bar-customization-target {
+  align-items: center !important;
+}
+
+#PersonalToolbar {
+  min-height: 24px !important;
+  padding: 0 2px !important;
+}
+
+/* ---------- Boutons de barre d'outils ------------------------------------ */
+
+#navigator-toolbox toolbarbutton.toolbarbutton-1 {
+  --toolbarbutton-inner-padding: 3px !important;
+  --toolbarbutton-outer-padding: 1px !important;
+  appearance: none !important;
+  color: var(--strata-text) !important;
+}
+
+#navigator-toolbox .toolbarbutton-1 > .toolbarbutton-icon,
+#navigator-toolbox .toolbarbutton-1 > .toolbarbutton-badge-stack,
+#navigator-toolbox .toolbarbutton-1 > .toolbarbutton-text {
+  border: 1px solid transparent !important;
+  border-radius: var(--strata-button-radius) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+#navigator-toolbox .toolbarbutton-1:not([disabled]):hover > :is(.toolbarbutton-icon, .toolbarbutton-badge-stack, .toolbarbutton-text) {
+  border-color: var(--strata-button-hover-border) !important;
+  background: var(--strata-button-hover-bg) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .55) !important;
+}
+
+#navigator-toolbox .toolbarbutton-1:not([disabled]):is(:hover:active, [open], [checked]) > :is(.toolbarbutton-icon, .toolbarbutton-badge-stack, .toolbarbutton-text) {
+  border-color: var(--strata-button-active-border) !important;
+  background: var(--strata-button-active-bg) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .2) !important;
+}
+
+#navigator-toolbox .toolbarbutton-1[disabled] {
+  opacity: 1 !important;
+}
+
+/* Icônes 24px de Firefox 3 dans la barre de navigation */
+#nav-bar :is(#reload-button, #stop-button, #home-button, #downloads-button,
+             #history-panelmenu, #bookmarks-menu-button, #print-button,
+             #new-tab-button, #new-window-button, #cut-button, #copy-button,
+             #paste-button, #fullscreen-button) {
+  --strata-icon-size: 24px;
+}
+
+#navigator-toolbox :is(#reload-button, #stop-button, #home-button, #downloads-button,
+                       #history-panelmenu, #bookmarks-menu-button, #print-button,
+                       #new-tab-button, #new-window-button, #cut-button, #copy-button,
+                       #paste-button, #fullscreen-button) :is(.toolbarbutton-icon, #downloads-indicator-icon) {
+  width: calc(var(--strata-icon-size, 16px) + 2 * var(--toolbarbutton-inner-padding)) !important;
+  height: calc(var(--strata-icon-size, 16px) + 2 * var(--toolbarbutton-inner-padding)) !important;
+  -moz-context-properties: none !important;
+  fill: none !important;
+}
+
+#navigator-toolbox :is(#downloads-button, #history-panelmenu, #bookmarks-menu-button) .toolbarbutton-badge-stack {
+  padding: 0 !important;
+}
+
+#downloads-button .toolbarbutton-badge-stack > .toolbarbutton-icon {
+  display: none !important;
+}
+
+#navigator-toolbox #downloads-indicator-icon {
+  padding: var(--toolbarbutton-inner-padding) !important;
+}
+
+#downloads-button .toolbarbutton-animatable-box,
+#downloads-indicator-progress-outer {
+  display: none !important;
+}
+
+/* #nav-bar */
+#nav-bar #reload-button .toolbarbutton-icon { list-style-image: url("images/aero/reload.png") !important; }
+#nav-bar #reload-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/reload-hover.png") !important; }
+#nav-bar #reload-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/reload-disabled.png") !important; }
+#nav-bar #stop-button .toolbarbutton-icon { list-style-image: url("images/aero/stop.png") !important; }
+#nav-bar #stop-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/stop-hover.png") !important; }
+#nav-bar #stop-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/stop-disabled.png") !important; }
+#nav-bar #home-button .toolbarbutton-icon { list-style-image: url("images/aero/home.png") !important; }
+#nav-bar #home-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/home-hover.png") !important; }
+#nav-bar #home-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/home-disabled.png") !important; }
+#nav-bar #downloads-button #downloads-indicator-icon { list-style-image: url("images/aero/downloads.png") !important; }
+#nav-bar #downloads-button:not([disabled]):hover #downloads-indicator-icon { list-style-image: url("images/aero/downloads-hover.png") !important; }
+#nav-bar #downloads-button[disabled] #downloads-indicator-icon { list-style-image: url("images/aero/downloads-disabled.png") !important; }
+#nav-bar #history-panelmenu .toolbarbutton-icon { list-style-image: url("images/aero/history.png") !important; }
+#nav-bar #history-panelmenu:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/history-hover.png") !important; }
+#nav-bar #history-panelmenu[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/history-disabled.png") !important; }
+#nav-bar #bookmarks-menu-button .toolbarbutton-icon { list-style-image: url("images/aero/bookmarks.png") !important; }
+#nav-bar #bookmarks-menu-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/bookmarks-hover.png") !important; }
+#nav-bar #bookmarks-menu-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/bookmarks-disabled.png") !important; }
+#nav-bar #print-button .toolbarbutton-icon { list-style-image: url("images/aero/print.png") !important; }
+#nav-bar #print-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/print-hover.png") !important; }
+#nav-bar #print-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/print-disabled.png") !important; }
+#nav-bar #new-tab-button .toolbarbutton-icon { list-style-image: url("images/aero/newtab.png") !important; }
+#nav-bar #new-tab-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/newtab-hover.png") !important; }
+#nav-bar #new-tab-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/newtab-disabled.png") !important; }
+#nav-bar #new-window-button .toolbarbutton-icon { list-style-image: url("images/aero/newwindow.png") !important; }
+#nav-bar #new-window-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/newwindow-hover.png") !important; }
+#nav-bar #new-window-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/newwindow-disabled.png") !important; }
+#nav-bar #cut-button .toolbarbutton-icon { list-style-image: url("images/aero/cut.png") !important; }
+#nav-bar #cut-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/cut-hover.png") !important; }
+#nav-bar #cut-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/cut-disabled.png") !important; }
+#nav-bar #copy-button .toolbarbutton-icon { list-style-image: url("images/aero/copy.png") !important; }
+#nav-bar #copy-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/copy-hover.png") !important; }
+#nav-bar #copy-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/copy-disabled.png") !important; }
+#nav-bar #paste-button .toolbarbutton-icon { list-style-image: url("images/aero/paste.png") !important; }
+#nav-bar #paste-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/paste-hover.png") !important; }
+#nav-bar #paste-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/paste-disabled.png") !important; }
+#nav-bar #fullscreen-button .toolbarbutton-icon { list-style-image: url("images/aero/fullscreen.png") !important; }
+#nav-bar #fullscreen-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/fullscreen-hover.png") !important; }
+#nav-bar #fullscreen-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/fullscreen-disabled.png") !important; }
+
+/* #navigator-toolbox > toolbar:not(#nav-bar) */
+#navigator-toolbox > toolbar:not(#nav-bar) #reload-button .toolbarbutton-icon { list-style-image: url("images/aero/reload-16.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #reload-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/reload-16-hover.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #reload-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/reload-16-disabled.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #stop-button .toolbarbutton-icon { list-style-image: url("images/aero/stop-16.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #stop-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/stop-16-hover.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #stop-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/stop-16-disabled.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #home-button .toolbarbutton-icon { list-style-image: url("images/aero/home-16.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #home-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/home-16-hover.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #home-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/home-16-disabled.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #downloads-button #downloads-indicator-icon { list-style-image: url("images/aero/downloads-16.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #downloads-button:not([disabled]):hover #downloads-indicator-icon { list-style-image: url("images/aero/downloads-16-hover.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #downloads-button[disabled] #downloads-indicator-icon { list-style-image: url("images/aero/downloads-16-disabled.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #history-panelmenu .toolbarbutton-icon { list-style-image: url("images/aero/history-16.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #history-panelmenu:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/history-16-hover.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #history-panelmenu[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/history-16-disabled.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #bookmarks-menu-button .toolbarbutton-icon { list-style-image: url("images/aero/bookmarks-16.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #bookmarks-menu-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/bookmarks-16-hover.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #bookmarks-menu-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/bookmarks-16-disabled.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #print-button .toolbarbutton-icon { list-style-image: url("images/aero/print-16.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #print-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/print-16-hover.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #print-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/print-16-disabled.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #new-tab-button .toolbarbutton-icon { list-style-image: url("images/aero/newtab-16.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #new-tab-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/newtab-16-hover.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #new-tab-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/newtab-16-disabled.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #new-window-button .toolbarbutton-icon { list-style-image: url("images/aero/newwindow-16.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #new-window-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/newwindow-16-hover.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #new-window-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/newwindow-16-disabled.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #cut-button .toolbarbutton-icon { list-style-image: url("images/aero/cut-16.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #cut-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/cut-16-hover.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #cut-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/cut-16-disabled.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #copy-button .toolbarbutton-icon { list-style-image: url("images/aero/copy-16.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #copy-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/copy-16-hover.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #copy-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/copy-16-disabled.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #paste-button .toolbarbutton-icon { list-style-image: url("images/aero/paste-16.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #paste-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/paste-16-hover.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #paste-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/paste-16-disabled.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #fullscreen-button .toolbarbutton-icon { list-style-image: url("images/aero/fullscreen-16.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #fullscreen-button:not([disabled]):hover .toolbarbutton-icon { list-style-image: url("images/aero/fullscreen-16-hover.png") !important; }
+#navigator-toolbox > toolbar:not(#nav-bar) #fullscreen-button[disabled] .toolbarbutton-icon { list-style-image: url("images/aero/fullscreen-16-disabled.png") !important; }
+
+
+/* ---------- Bouton « trou de serrure » Précédent / Suivant --------------- */
+
+#nav-bar #back-button,
+#nav-bar #forward-button {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+#nav-bar #back-button {
+  margin-inline-start: 2px !important;
+}
+
+#nav-bar :is(#back-button, #forward-button) > .toolbarbutton-icon {
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  -moz-context-properties: none !important;
+  fill: none !important;
+}
+
+#nav-bar #back-button > .toolbarbutton-icon {
+  width: 36px !important;
+  height: 34px !important;
+  list-style-image: url("images/aero/keyhole-back.png") !important;
+}
+#nav-bar #back-button:not([disabled]):hover > .toolbarbutton-icon {
+  list-style-image: url("images/aero/keyhole-back-hover.png") !important;
+}
+#nav-bar #back-button:not([disabled]):hover:active > .toolbarbutton-icon,
+#nav-bar #back-button[open] > .toolbarbutton-icon {
+  list-style-image: url("images/aero/keyhole-back-active.png") !important;
+}
+#nav-bar #back-button[disabled] > .toolbarbutton-icon {
+  list-style-image: url("images/aero/keyhole-back-disabled.png") !important;
+}
+
+/* Le Suivant porte aussi la petite flèche d'historique, comme dans Firefox 3 */
+#nav-bar #forward-button > .toolbarbutton-icon {
+  width: 42px !important;
+  height: 28px !important;
+  background: url("images/aero/keyhole-dropmarker.png") no-repeat right center !important;
+  list-style-image: url("images/aero/keyhole-forward.png") !important;
+  object-fit: none !important;
+  object-position: left center !important;
+}
+#nav-bar #forward-button:not([disabled]):hover > .toolbarbutton-icon {
+  background-image: url("images/aero/keyhole-dropmarker-hover.png") !important;
+  list-style-image: url("images/aero/keyhole-forward-hover.png") !important;
+}
+#nav-bar #forward-button:not([disabled]):hover:active > .toolbarbutton-icon,
+#nav-bar #forward-button[open] > .toolbarbutton-icon {
+  background-image: url("images/aero/keyhole-dropmarker-active.png") !important;
+  list-style-image: url("images/aero/keyhole-forward-active.png") !important;
+}
+#nav-bar #forward-button[disabled] > .toolbarbutton-icon {
+  background-image: url("images/aero/keyhole-dropmarker-disabled.png") !important;
+  list-style-image: url("images/aero/keyhole-forward-disabled.png") !important;
+}
+
+/* ---------- Barre d'adresse ---------------------------------------------- */
+
+#urlbar-container,
+#search-container {
+  padding-block: 0 !important;
+  margin-inline: 3px !important;
+}
+
+#urlbar:not([breakout-extend]),
+#searchbar {
+  --urlbar-container-height: 26px !important;
+  --urlbar-min-height: 24px !important;
+  --urlbar-height: 24px !important;
+}
+
+#urlbar-background,
+#searchbar {
+  border-radius: 0 !important;
+  border: 1px solid !important;
+  border-color: var(--strata-field-border) !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
+  outline: none !important;
+  animation: none !important;
+}
+
+#urlbar:not([focused]):hover > #urlbar-background,
+#searchbar:not(:focus-within):hover {
+  border-color: var(--strata-field-hover-border) !important;
+}
+
+#urlbar[focused] > #urlbar-background,
+#searchbar:focus-within {
+  border-color: var(--strata-field-focus-border) !important;
+  outline: none !important;
+}
+
+#urlbar:not([breakout-extend]) > .urlbar-input-container {
+  padding: 1px !important;
+  height: var(--urlbar-height) !important;
+}
+
+#urlbar-input,
+#searchbar .searchbar-textbox {
+  font: var(--strata-font) !important;
+  font-size: 1.1em !important;
+}
+
+/* Le sélecteur de moteur dans la barre d'adresse n'existait pas dans
+ * Firefox 3 : la barre de recherche fait ce travail. Supprimez cette règle
+ * pour le retrouver. */
+#urlbar-searchmode-switcher {
+  display: none !important;
+}
+
+/* Bloc d'identité (à gauche de l'adresse) */
+#identity-box {
+  margin: 0 !important;
+  margin-inline-end: 4px !important;
+}
+
+#identity-box > .identity-box-button,
+#identity-icon-box {
+  margin: 0 !important;
+  padding: 0 5px !important;
+  border-radius: 0 !important;
+  border: none !important;
+  border-inline-end: 1px solid rgba(0, 0, 0, .12) !important;
+  background: var(--strata-dialog) url("images/aero/identity-box.png") repeat-x 0 0 !important;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0 rgba(255, 255, 255, .2) !important;
+  color: #000000 !important;
+}
+
+#identity-box > .identity-box-button:hover,
+#identity-icon-box:hover {
+  background-position: 0 -60px !important;
+}
+
+#identity-box > .identity-box-button:hover:active,
+#identity-box[open] > .identity-box-button,
+#identity-icon-box[open] {
+  background-position: 0 -120px !important;
+}
+
+/* Site sécurisé : bloc bleu ; certificat EV : bloc vert (Firefox 3.5/3.6) */
+#identity-box.verifiedDomain > #identity-icon-box,
+#identity-box.verifiedDomain > .identity-box-button {
+  background-position: 0 -180px !important;
+  border-inline-end-color: rgba(0, 0, 0, .2) !important;
+  color: #ffffff !important;
+}
+#identity-box.verifiedDomain > #identity-icon-box:hover {
+  background-position: 0 -240px !important;
+}
+#identity-box.verifiedIdentity > #identity-icon-box,
+#identity-box.verifiedIdentity > .identity-box-button {
+  background-position: 0 -360px !important;
+  border-inline-end-color: rgba(0, 0, 0, .2) !important;
+  color: #ffffff !important;
+}
+#identity-box.verifiedIdentity > #identity-icon-box:hover {
+  background-position: 0 -420px !important;
+}
+
+#identity-box.verifiedDomain #identity-icon,
+#identity-box.verifiedIdentity #identity-icon {
+  fill: #ffffff !important;
+}
+
+#identity-icon-label {
+  color: inherit !important;
+  font-weight: normal !important;
+}
+
+#tracking-protection-icon-container {
+  margin-inline-start: 0 !important;
+  border-radius: 0 !important;
+}
+
+/* Icônes à droite : étoile, flèche « Aller » */
+#urlbar .urlbar-icon,
+#urlbar .urlbar-page-action {
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+#star-button-box {
+  padding: 0 2px !important;
+}
+
+#star-button {
+  list-style-image: url("images/aero/star.png") !important;
+  -moz-context-properties: none !important;
+  fill: none !important;
+  width: 16px !important;
+  height: 16px !important;
+  padding: 0 !important;
+}
+#star-button-box:hover > #star-button {
+  list-style-image: url("images/aero/star-hover.png") !important;
+}
+#star-button-box:hover:active > #star-button {
+  list-style-image: url("images/aero/star-active.png") !important;
+}
+#star-button[starred] {
+  list-style-image: url("images/aero/star-starred.png") !important;
+}
+
+#urlbar-go-button {
+  display: flex !important;
+  list-style-image: url("images/aero/go.png") !important;
+  -moz-context-properties: none !important;
+  fill: none !important;
+  width: 22px !important;
+  height: 22px !important;
+  padding: 3px !important;
+  margin-inline-start: 2px !important;
+}
+#urlbar-go-button:hover {
+  list-style-image: url("images/aero/go-hover.png") !important;
+}
+
+/* Liste déroulante de la barre d'adresse */
+#urlbar[breakout-extend] > #urlbar-background {
+  border-color: var(--strata-field-focus-border) !important;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, .25) !important;
+}
+
+.urlbarView {
+  font: var(--strata-font) !important;
+}
+
+/* ---------- Barre de recherche ------------------------------------------- */
+
+#searchbar {
+  min-height: 24px !important;
+}
+
+#searchbar .searchbar-search-button {
+  padding: 0 4px !important;
+  margin: 0 !important;
+  border-inline-end: 1px solid rgba(0, 0, 0, .12) !important;
+  background: var(--strata-dialog) url("images/aero/identity-box.png") repeat-x 0 0 !important;
+  border-radius: 0 !important;
+}
+#searchbar .searchbar-search-button:hover {
+  background-position: 0 -60px !important;
+}
+#searchbar .searchbar-search-button[open],
+#searchbar .searchbar-search-button:hover:active {
+  background-position: 0 -120px !important;
+}
+
+#searchbar .search-go-button {
+  display: flex !important;
+  list-style-image: url("images/aero/search-glass.png") !important;
+  -moz-context-properties: none !important;
+  fill: none !important;
+  padding: 0 4px !important;
+  width: auto !important;
+}
+#searchbar .search-go-button:hover {
+  list-style-image: url("images/aero/search-glass-hover.png") !important;
+}
+#searchbar .search-go-button:hover:active {
+  list-style-image: url("images/aero/search-glass-active.png") !important;
+}
+
+/* ---------- Barre personnelle (marque-pages) ----------------------------- */
+
+#PersonalToolbar .toolbarbutton-1 {
+  --strata-icon-size: 16px;
+}
+
+#PersonalToolbar toolbarbutton.bookmark-item {
+  appearance: none !important;
+  margin: 1px 0 !important;
+  padding: 2px 4px !important;
+  border: 1px solid transparent !important;
+  border-radius: var(--strata-button-radius) !important;
+  background: transparent !important;
+  color: var(--strata-text) !important;
+  font: var(--strata-font) !important;
+}
+
+#PersonalToolbar toolbarbutton.bookmark-item:not([disabled]):hover {
+  border-color: var(--strata-button-hover-border) !important;
+  background: var(--strata-button-hover-bg) !important;
+}
+
+#PersonalToolbar toolbarbutton.bookmark-item:not([disabled]):is(:hover:active, [open]) {
+  border-color: var(--strata-button-active-border) !important;
+  background: var(--strata-button-active-bg) !important;
+}
+
+#PersonalToolbar .bookmark-item[container] {
+  list-style-image: url("images/aero/folder.png") !important;
+  -moz-context-properties: none !important;
+}
+#PersonalToolbar .bookmark-item[container][open] {
+  list-style-image: url("images/aero/folder-open.png") !important;
+}
+#PersonalToolbar .bookmark-item:not([container]):not([image]) {
+  list-style-image: url("images/aero/page.png") !important;
+  -moz-context-properties: none !important;
+}
+
+#PersonalToolbar .bookmark-item > .toolbarbutton-icon {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+/* ---------- Onglets ------------------------------------------------------ */
+
+#TabsToolbar {
+  background: var(--strata-dialog) url("images/common/tabbrowser-tabs-bkgnd.png") repeat-x !important;
+  color: var(--strata-text) !important;
+  border-bottom: 1px solid var(--strata-3dshadow) !important;
+  padding-inline-start: 3px !important;
+  min-height: 0 !important;
+  font: var(--strata-font) !important;
+}
+
+#TabsToolbar-customization-target {
+  min-height: 27px !important;
+  align-items: end !important;
+}
+
+#tabbrowser-tabs {
+  min-height: 0 !important;
+  --tab-min-width: 100px;
+  border-inline-start: none !important;
+  padding-inline-start: 0 !important;
+  margin-inline-start: 0 !important;
+}
+
+#tabbrowser-tabs[orient="horizontal"] .tabbrowser-tab {
+  padding: 0 !important;
+  margin-block: 0 !important;
+  margin-inline-end: -1px !important;
+  max-width: 250px !important;
+}
+
+#tabbrowser-tabs[orient="horizontal"] .tabbrowser-tab[fadein]:not([pinned]) {
+  min-width: 100px !important;
+}
+
+.tabbrowser-tab > .tab-stack {
+  margin-top: 3px !important;
+}
+
+.tabbrowser-tab:not([selected]):hover > .tab-stack,
+.tabbrowser-tab[selected] > .tab-stack {
+  margin-top: 2px !important;
+}
+
+/* Fond et bordure de l'onglet (tab-bkgnd.png sur la couleur de dialogue) */
+.tab-background {
+  margin: 0 !important;
+  border: 1px solid var(--strata-3dshadow) !important;
+  border-bottom: none !important;
+  border-radius: 2px 2px 0 0 !important;
+  background: url("images/common/tab-bkgnd.png") repeat-x, var(--strata-dialog) !important;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, .3) !important;
+  outline: none !important;
+  min-height: 0 !important;
+}
+
+.tabbrowser-tab:not([selected]):hover > .tab-stack > .tab-background {
+  border-radius: 4px 4px 0 0 !important;
+  background: url("images/common/tab-hover-bkgnd.png") repeat-x, var(--strata-dialog) !important;
+}
+
+.tabbrowser-tab[selected] > .tab-stack > .tab-background {
+  border-radius: 4px 4px 0 0 !important;
+  background: url("images/common/tab-active-bkgnd.png") repeat-x, var(--strata-dialog) !important;
+  box-shadow: none !important;
+  margin-bottom: -1px !important; /* recouvre la ligne sous la barre d'onglets */
+}
+
+.tabbrowser-tab[selected] > .tab-stack {
+  position: relative;
+  z-index: 2;
+}
+
+.tabbrowser-tab[multiselected]:not([selected]) > .tab-stack > .tab-background {
+  outline: 1px dotted var(--strata-text) !important;
+  outline-offset: -3px !important;
+}
+
+.tabbrowser-tab .tab-content {
+  padding: 0 6px 0 7px !important;
+  min-height: 22px !important;
+  color: var(--strata-text) !important;
+}
+
+.tabbrowser-tab[selected] .tab-content {
+  padding-bottom: 1px !important;
+}
+
+.tabbrowser-tab[selected] .tab-label {
+  font-weight: bold !important;
+}
+
+.tab-label {
+  font: var(--strata-font) !important;
+}
+
+.tab-label-container {
+  height: auto !important;
+}
+
+.tab-icon-image:not([src]),
+.tab-icon-image:not([src]):-moz-broken {
+  content: url("images/aero/page.png") !important;
+  -moz-context-properties: none !important;
+}
+
+/* Bouton de fermeture d'onglet (close.png de Firefox 3) */
+.tab-close-button {
+  list-style-image: url("images/aero/tab-close.png") !important;
+  -moz-context-properties: none !important;
+  fill: none !important;
+  width: 14px !important;
+  height: 14px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  margin-inline-start: 4px !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  opacity: 1 !important;
+  display: flex !important;
+}
+.tabbrowser-tab[selected] .tab-close-button {
+  list-style-image: url("images/aero/tab-close-selected.png") !important;
+}
+.tab-close-button:hover,
+.tabbrowser-tab[selected] .tab-close-button:hover {
+  list-style-image: url("images/aero/tab-close-hover.png") !important;
+  background: transparent !important;
+}
+.tab-close-button:hover:active,
+.tabbrowser-tab[selected] .tab-close-button:hover:active {
+  list-style-image: url("images/aero/tab-close-active.png") !important;
+}
+
+/* Pas de séparateurs Proton entre les onglets */
+.tabbrowser-tab::after,
+.tabbrowser-tab::before {
+  display: none !important;
+}
+
+/* Boutons de la barre d'onglets : nouvel onglet, liste des onglets */
+#TabsToolbar :is(#tabs-newtab-button, #new-tab-button, #alltabs-button),
+#tabbrowser-arrowscrollbox::part(scrollbutton-up),
+#tabbrowser-arrowscrollbox::part(scrollbutton-down) {
+  appearance: none !important;
+  margin: 3px 0 0 !important;
+  padding: 0 !important;
+  border: 1px solid var(--strata-3dshadow) !important;
+  border-bottom: none !important;
+  border-radius: 2px 2px 0 0 !important;
+  background: url("images/common/tab-bkgnd.png") repeat-x, var(--strata-dialog) !important;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, .3) !important;
+  min-height: 0 !important;
+  height: 23px !important;
+  align-self: end !important;
+}
+
+#TabsToolbar :is(#tabs-newtab-button, #new-tab-button, #alltabs-button):hover,
+#tabbrowser-arrowscrollbox:not([scrolledtostart])::part(scrollbutton-up):hover,
+#tabbrowser-arrowscrollbox:not([scrolledtoend])::part(scrollbutton-down):hover {
+  margin-top: 2px !important;
+  height: 24px !important;
+  background: url("images/common/tab-hover-bkgnd.png") repeat-x, var(--strata-dialog) !important;
+}
+
+#TabsToolbar :is(#tabs-newtab-button, #new-tab-button) {
+  width: 31px !important;
+  margin-inline-start: 2px !important;
+}
+
+#TabsToolbar :is(#tabs-newtab-button, #new-tab-button) > .toolbarbutton-icon {
+  list-style-image: url("images/aero/tabs-newtab.png") !important;
+  -moz-context-properties: none !important;
+  fill: none !important;
+  width: 18px !important;
+  height: 18px !important;
+  padding: 0 !important;
+  margin: auto !important;
+  border: none !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+#TabsToolbar :is(#tabs-newtab-button, #new-tab-button):hover:active > .toolbarbutton-icon {
+  list-style-image: url("images/aero/tabs-newtab-active.png") !important;
+}
+
+#TabsToolbar #alltabs-button {
+  width: 18px !important;
+  margin-inline: 2px 0 !important;
+}
+
+#TabsToolbar #alltabs-button > .toolbarbutton-badge-stack {
+  padding: 0 !important;
+  margin: auto !important;
+  border: none !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+#TabsToolbar #alltabs-button .toolbarbutton-icon {
+  list-style-image: url("images/aero/tabs-alltabs.png") !important;
+  -moz-context-properties: none !important;
+  fill: none !important;
+  width: 13px !important;
+  height: 11px !important;
+  padding: 0 !important;
+  border: none !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+#TabsToolbar #alltabs-button[open] .toolbarbutton-icon {
+  list-style-image: url("images/aero/tabs-alltabs-active.png") !important;
+}
+
+#tabbrowser-arrowscrollbox::part(scrollbutton-up),
+#tabbrowser-arrowscrollbox::part(scrollbutton-down) {
+  width: 18px !important;
+  -moz-context-properties: none !important;
+  fill: none !important;
+}
+#tabbrowser-arrowscrollbox::part(scrollbutton-up) {
+  list-style-image: url("images/aero/tab-arrow-left.png") !important;
+}
+#tabbrowser-arrowscrollbox::part(scrollbutton-down) {
+  list-style-image: url("images/aero/tab-arrow-right.png") !important;
+}
+#tabbrowser-arrowscrollbox[scrolledtostart]::part(scrollbutton-up),
+#tabbrowser-arrowscrollbox[scrolledtoend]::part(scrollbutton-down) {
+  opacity: .4 !important;
+}
+
+#tabbrowser-arrowscrollbox::part(overflow-start-indicator),
+#tabbrowser-arrowscrollbox::part(overflow-end-indicator) {
+  display: none !important;
+}
+
+/* La page touche directement la barre d'onglets */
+#browser,
+#tabbrowser-tabbox {
+  border-top: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+:root {
+  --chrome-content-separator-color: transparent !important;
+}
+
+/* ---------- Menus contextuels et menus déroulants ----------------------- */
+
+menupopup:not(.in-menulist, #ContentSelectDropdown > menupopup) {
+  --panel-background: var(--strata-menu-bg) !important;
+  --panel-color: #000000 !important;
+  --panel-border-color: var(--strata-menu-border) !important;
+  --panel-border-radius: 0px !important;
+  --panel-padding: 2px !important;
+  --panel-shadow-margin: 4px !important;
+  --panel-shadow: 2px 2px 3px rgba(0, 0, 0, .35) !important;
+  --menuitem-padding: 3px 20px 3px 4px !important;
+  --menuitem-border-radius: var(--strata-menu-radius) !important;
+  --menuitem-hover-background-color: transparent !important;
+  --menu-background-color: var(--strata-menu-bg) !important;
+  --menu-border-color: var(--strata-menu-border) !important;
+  --menu-color: #000000 !important;
+  --menuitem-disabled-hover-background-color: transparent !important;
+  font: var(--strata-font) !important;
+}
+
+menupopup:not(.in-menulist, #ContentSelectDropdown > menupopup)::part(content) {
+  background: var(--strata-menu-gutter), var(--strata-menu-bg) !important;
+}
+
+menupopup:not(.in-menulist) > :is(menu, menuitem) {
+  border: 1px solid transparent !important;
+  padding-block: 3px !important;
+  min-height: 22px !important;
+}
+
+menupopup:not(.in-menulist) > :is(menu, menuitem)[_moz-menuactive]:not([disabled]) {
+  background: var(--strata-menu-hover-bg) !important;
+  border-color: var(--strata-menu-hover-border) !important;
+  color: var(--strata-menu-hover-text) !important;
+}
+
+menupopup:not(.in-menulist) > :is(menu, menuitem)[disabled] {
+  color: var(--strata-graytext) !important;
+}
+
+menupopup > menuseparator {
+  padding: 3px 0 3px 30px !important;
+}
+menupopup > menuseparator::before {
+  border-top-color: #e0e0e0 !important;
+}
