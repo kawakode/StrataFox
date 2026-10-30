@@ -1,0 +1,66 @@
+STRATA POUR FIREFOX MODERNE
+Le thème Windows de Firefox 3, variantes Vista / Seven et XP.
+(English instructions below.)
+
+INSTALLATION
+------------
+1. Dans Firefox, ouvrez la page about:config, cherchez
+   toolkit.legacyUserProfileCustomizations.stylesheets
+   et passez-la à true (double-clic).
+2. Ouvrez la page about:support. Sur la ligne « Dossier de profil »,
+   cliquez sur « Ouvrir le dossier ».
+3. Copiez le dossier « chrome » de cette archive dans ce dossier de profil.
+   S'il y a déjà un dossier « chrome », fusionnez-le et ajoutez les lignes
+   @import de ce paquet en haut de votre userChrome.css.
+4. Redémarrez Firefox.
+
+CHOISIR LA VARIANTE
+-------------------
+La variante Vista / Seven est active par défaut. Pour passer à XP, ouvrez
+chrome\userChrome.css avec le Bloc-notes et changez les deux lignes ainsi :
+
+  /* @import url("strata/strata-aero.css"); */
+  @import url("strata/strata-xp.css");
+
+Enregistrez, puis redémarrez Firefox.
+
+DÉSINSTALLER
+------------
+Supprimez le dossier « chrome » du dossier de profil (ou seulement le
+dossier chrome\strata et les lignes @import), puis redémarrez Firefox.
+
+Plus de détails et réglages conseillés : https://github.com/kawakode/StrataFox
+
+
+===========================================================================
+
+STRATA FOR MODERN FIREFOX
+The Firefox 3 Windows theme, Vista / Seven and XP variants.
+
+INSTALLATION
+------------
+1. In Firefox, open about:config, search for
+   toolkit.legacyUserProfileCustomizations.stylesheets
+   and set it to true (double-click).
+2. Open about:support. On the "Profile Folder" row, click "Open Folder".
+3. Copy the "chrome" folder from this archive into that profile folder.
+   If a "chrome" folder already exists, merge them and add this package's
+   @import lines at the top of your userChrome.css.
+4. Restart Firefox.
+
+CHOOSING THE VARIANT
+--------------------
+The Vista / Seven variant is enabled by default. To switch to XP, open
+chrome\userChrome.css in Notepad and change the two lines to:
+
+  /* @import url("strata/strata-aero.css"); */
+  @import url("strata/strata-xp.css");
+
+Save, then restart Firefox.
+
+UNINSTALL
+---------
+Delete the "chrome" folder from the profile folder (or only chrome\strata
+and the @import lines), then restart Firefox.
+
+More details and recommended settings: https://github.com/kawakode/StrataFox
