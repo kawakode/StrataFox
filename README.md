@@ -29,6 +29,10 @@ Les images sont les fichiers **originaux** du thème « winstripe » de Firefox 
 
 ## Installation
 
+Téléchargez l'archive `StrataFox-<version>.zip` de la dernière
+[release](https://github.com/kawakode/StrataFox/releases/latest) et décompressez-la :
+elle contient le dossier `chrome` et un fichier `INSTALLATION.txt` qui reprend ces étapes.
+
 1. Ouvrez `about:config` et passez `toolkit.legacyUserProfileCustomizations.stylesheets` à **true**.
 2. Ouvrez `about:support`, ligne **Dossier de profil**, cliquez sur **Ouvrir le dossier**.
 3. Copiez le dossier `chrome` de ce paquet dans ce dossier de profil
@@ -81,12 +85,22 @@ src/
   strata.template.css       modèle commun aux deux variantes
   variant-aero.css          couleurs Vista / Seven
   variant-xp.css            couleurs XP
+release/
+  INSTALLATION.txt          instructions incluses dans l'archive de release
 tools/
   build.py                  régénère strata-aero.css et strata-xp.css depuis src/
   slice.py                  découpe les sprites originaux de Firefox 3.6
+  package.sh                construit l'archive de release
 ```
 
 Pour modifier le thème, éditez les fichiers de `src/` puis lancez `python3 tools/build.py`.
+
+### Publier une release
+
+Poussez un tag de version : `git tag v1.0.0 && git push origin v1.0.0`.
+Le workflow `.github/workflows/release.yml` vérifie que les CSS générés sont à jour,
+construit l'archive avec `tools/package.sh` (dossier `chrome`, `INSTALLATION.txt`, licences)
+et publie la release GitHub avec l'archive en pièce jointe.
 
 ## Licence et crédits
 
