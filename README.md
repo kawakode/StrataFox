@@ -90,9 +90,10 @@ Pour modifier le thème, éditez les fichiers de `src/` puis lancez `python3 too
 
 ## Licence et crédits
 
-- Images et parties de style issues du thème « winstripe » de Firefox 3.6, © Mozilla et contributeurs,
-  sous triple licence MPL 1.1 / GPL 2.0 / LGPL 2.1 (texte de la MPL 1.1 dans `LICENSE-MPL-1.1.txt`).
+- Ce projet est distribué sous **Mozilla Public License 2.0** (fichier `LICENSE`).
+- Les images et parties de style viennent du thème « winstripe » de Firefox 3.6, © Mozilla et contributeurs.
+  Elles étaient publiées sous triple licence MPL 1.1 / GPL 2.0 / LGPL 2.1 (texte de la MPL 1.1 dans
+  `LICENSE-MPL-1.1.txt`), dont la section 6.2 permet de passer à une version ultérieure de la MPL.
   Source : dépôt `mozilla/gecko-dev`, `browser/themes/winstripe` et `toolkit/themes/winstripe`, décembre 2009.
-- Le CSS de ce thème est distribué sous les mêmes conditions (MPL 1.1).
 - Merci aux projets [Stratum](https://github.com/FranklinDM/Stratum) (portage du thème de Firefox 4)
   et [firefox-strata-xp-css](https://github.com/docrR/firefox-strata-xp-css), qui ont servi de référence.
