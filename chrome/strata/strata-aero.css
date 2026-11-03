@@ -363,11 +363,10 @@
   height: 34px !important;
   list-style-image: url("images/aero/keyhole-back.png") !important;
 }
-#nav-bar #back-button:not([disabled]):hover > .toolbarbutton-icon {
+#nav-bar #back-button:not([disabled]):hover:not(:has(> .toolbarbutton-text:hover)) > .toolbarbutton-icon {
   list-style-image: url("images/aero/keyhole-back-hover.png") !important;
 }
-#nav-bar #back-button:not([disabled]):hover:active > .toolbarbutton-icon,
-#nav-bar #back-button[open] > .toolbarbutton-icon {
+#nav-bar #back-button:not([disabled], [open]):hover:active:not(:has(> .toolbarbutton-text:hover)) > .toolbarbutton-icon {
   list-style-image: url("images/aero/keyhole-back-active.png") !important;
 }
 #nav-bar #back-button[disabled] > .toolbarbutton-icon {
@@ -383,18 +382,97 @@
   object-fit: none !important;
   object-position: left center !important;
 }
-#nav-bar #forward-button:not([disabled]):hover > .toolbarbutton-icon {
-  background-image: url("images/aero/keyhole-dropmarker-hover.png") !important;
+#nav-bar #forward-button:not([disabled]):hover:not(:has(> .toolbarbutton-text:hover)) > .toolbarbutton-icon {
   list-style-image: url("images/aero/keyhole-forward-hover.png") !important;
 }
-#nav-bar #forward-button:not([disabled]):hover:active > .toolbarbutton-icon,
-#nav-bar #forward-button[open] > .toolbarbutton-icon {
-  background-image: url("images/aero/keyhole-dropmarker-active.png") !important;
+#nav-bar #forward-button:not([disabled], [open]):hover:active:not(:has(> .toolbarbutton-text:hover)) > .toolbarbutton-icon {
   list-style-image: url("images/aero/keyhole-forward-active.png") !important;
 }
 #nav-bar #forward-button[disabled] > .toolbarbutton-icon {
-  background-image: url("images/aero/keyhole-dropmarker-disabled.png") !important;
   list-style-image: url("images/aero/keyhole-forward-disabled.png") !important;
+}
+
+/* ---------- Petite flèche : menu de l'historique de l'onglet -------------
+ * Firefox moderne n'a plus de bouton séparé pour cette flèche : le menu
+ * s'ouvre par clic droit ou appui long sur Précédent / Suivant.
+ *
+ * On recycle l'étiquette de texte (invisible en mode icônes) comme zone
+ * cliquable de 16px posée sur la flèche. Un clic qui ne vise pas le bouton
+ * lui-même ne déclenche pas Précédent/Suivant ; reste à ouvrir le menu tout
+ * de suite (voir « Appui sur la flèche » plus bas).
+ *
+ * L'étiquette du Précédent couvre la flèche (elle déborde sur le Suivant) ;
+ * si Précédent est grisé, c'est celle du Suivant qui prend le relais. Si les
+ * deux sont grisés, il n'y a pas d'historique et la flèche est grisée. */
+
+#nav-bar #back-button:has(+ #forward-button),
+#nav-bar #forward-button {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+#nav-bar #back-button:not([disabled]):has(+ #forward-button) > .toolbarbutton-text,
+#nav-bar #forward-button:not([disabled]) > .toolbarbutton-text {
+  display: flex !important;
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 16px !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  color: transparent !important;
+  font-size: 0 !important;
+  overflow: hidden !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+/* 36px (Précédent) + 42px (Suivant) - 16px (flèche) */
+#nav-bar #back-button > .toolbarbutton-text {
+  inset-inline-start: 62px !important;
+  z-index: 1 !important;
+}
+#nav-bar #forward-button > .toolbarbutton-text {
+  inset-inline-end: 0 !important;
+}
+
+/* Appui sur la flèche : ouvrir le menu tout de suite.
+ * Le script de Firefox ouvre le menu sans attendre si, pendant l'appui, le
+ * pointeur quitte le bouton par le bas. Pendant l'appui sur la flèche on
+ * remonte donc la boîte du bouton (transform, sans effet sur la mise en
+ * page) en redescendant d'autant son contenu : visuellement rien ne bouge,
+ * mais le pointeur se retrouve « sous » le bouton et le menu s'ouvre. */
+#nav-bar #forward-button:has(> .toolbarbutton-text:active) {
+  transform: translateY(-64px) !important;
+}
+#nav-bar #forward-button:has(> .toolbarbutton-text:active) > :is(.toolbarbutton-icon, .toolbarbutton-text) {
+  transform: translateY(64px) !important;
+}
+/* La flèche est à droite du Précédent : on le décale aussi vers la droite */
+#nav-bar #back-button:has(> .toolbarbutton-text:active) {
+  transform: translate(42px, -64px) !important;
+}
+#nav-bar #back-button:has(> .toolbarbutton-text:active) > :is(.toolbarbutton-icon, .toolbarbutton-text) {
+  transform: translate(-42px, 64px) !important;
+}
+#nav-bar :is(#back-button, #forward-button):not([disabled]) > .toolbarbutton-text:active {
+  pointer-events: none !important;
+}
+
+/* États de la flèche */
+#nav-bar #back-button:not([disabled]):has(> .toolbarbutton-text:hover) + #forward-button > .toolbarbutton-icon,
+#nav-bar #forward-button:not([disabled]):has(> .toolbarbutton-text:hover) > .toolbarbutton-icon {
+  background-image: url("images/aero/keyhole-dropmarker-hover.png") !important;
+}
+#nav-bar #back-button[open] + #forward-button > .toolbarbutton-icon,
+#nav-bar #forward-button[open] > .toolbarbutton-icon {
+  background-image: url("images/aero/keyhole-dropmarker-active.png") !important;
+}
+#nav-bar #back-button[disabled] + #forward-button[disabled] > .toolbarbutton-icon {
+  background-image: url("images/aero/keyhole-dropmarker-disabled.png") !important;
 }
 
 /* ---------- Barre d'adresse et barre de recherche ------------------------
